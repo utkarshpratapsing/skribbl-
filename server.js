@@ -12,7 +12,7 @@ const port = 8000;
 app.use(cors());
 
 var server = app.listen(
-  port,
+  process.env.PORT || port,
   console.log(
     `Server is running on the port no: ${(port)} `
       .green
