@@ -81,7 +81,7 @@ if (process.env.NODE_ENV === 'production') {
     res.sendFile(path.join(__dirname, 'chatfrontend/build', 'index.html'));
   });
 }
-const whitelist = ['http://localhost:3000', 'http://localhost:8000']
+const whitelist = ['http://localhost:3000', 'http://localhost:8000','https://fourskribblrs.herokuapp.com/']
 const corsOptions = {
   origin: function (origin, callback) {
     console.log("** Origin of request " + origin)
