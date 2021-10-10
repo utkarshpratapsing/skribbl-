@@ -1,5 +1,4 @@
 import Chat from "./chat/chat";
-import Process from "./process/process";
 import Home from "./home/home";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import "./App.scss";
@@ -17,9 +16,6 @@ function Appmain(props) {
           roomname={props.match.params.roomname}
           socket={socket}
         />
-      </div>
-      <div className="left">
-        <Process />
       </div>
     </React.Fragment>
   );
