@@ -1,22 +1,28 @@
 import "./process.scss";
-import { useSelector } from "react-redux";
-function Process() {
-  // returns new state from the reducers
-  const state = useSelector((state) => state.ProcessReducer);
-
+import { useState, useEffect } from "react";
+function Process({ socket, roomname }) {
+  const [userlist, setUserList] = useState([]);
+  useEffect(()=>{
+    socket.emit("updateusers")
+    socket.on("userList",(data)=>{
+      var temp = [];
+      data.users.forEach(names);
+      function names(value){
+        if(value.room === roomname){
+          temp.push(value.username)
+        }
+      }
+      setUserList([...temp])
+    })
+  },[])
   return (
-    <div className="process">
-      <h5>
-        Secret Key : <span>"uI2ooxtwHeI6q69PS98fx9SWVGbpQohO"</span>
-      </h5>
-      <div className="incoming">
-        <h4>Incoming Data</h4>
-        <p>{state.cypher}</p>
-      </div>
-      <div className="crypt">
-        <h4>Decypted Data</h4>
-        <p>{state.text}</p>
-      </div>
+    <div class="process">
+      <h1>Players</h1>
+      {userlist.map((i) => {
+          return(
+            <h2>{i}</h2>
+          );
+        })}
     </div>
   );
 }

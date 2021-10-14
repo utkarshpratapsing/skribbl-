@@ -3,7 +3,7 @@ const app = express();
 const socket = require("socket.io");
 const color = require("colors");
 const cors = require("cors");
-const { get_Current_User, user_Disconnect, join_User } = require("./dummyuser");
+const { get_Current_User, user_Disconnect, join_User, get_all_users } = require("./dummyuser");
 
 app.use(express());
 
@@ -43,13 +43,14 @@ io.on("connection", (socket) => {
       username: p_user.username,
       text: `${p_user.username} has joined the chat`,
     });
+
+    socket.emit("updateusers");
   });
 
   //user sending message
   socket.on("chat", (text) => {
     //gets the room user and the message sent
     const p_user = get_Current_User(socket.id);
-
     io.to(p_user.room).emit("message", {
       userId: p_user.id,
       username: p_user.username,
@@ -61,7 +62,7 @@ io.on("connection", (socket) => {
   socket.on("disconnect", () => {
     //the user is deleted from array of users and a left room message displayed
     const p_user = user_Disconnect(socket.id);
-
+    io.emit("updateusers");
     if (p_user) {
       io.to(p_user.room).emit("message", {
         userId: p_user.id,
@@ -69,6 +70,12 @@ io.on("connection", (socket) => {
         text: `${p_user.username} has left the room`,
       });
     }
+  });
+
+
+  socket.on("updateusers", () => {
+    const p_user_arr = get_all_users();
+    io.emit("userList",{users: p_user_arr});
   });
 });
 

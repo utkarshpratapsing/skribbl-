@@ -26,8 +26,13 @@ function user_Disconnect(id) {
   }
 }
 
+function get_all_users() {
+  return c_users;
+}
+
 module.exports = {
   join_User,
   get_Current_User,
   user_Disconnect,
+  get_all_users
 };
