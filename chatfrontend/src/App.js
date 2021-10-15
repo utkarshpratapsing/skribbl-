@@ -4,11 +4,16 @@ import Home from "./home/home";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import "./App.scss";
 import React from "react";
+import { useState } from "react";
 import io from "socket.io-client";
 
 const socket = io.connect('/');
 
 function Appmain(props) {
+  const [start, setstart] = useState(false);
+  function startgame(){
+    setstart(true);
+  }
   return (
     <React.Fragment>      
       <div className="right">
@@ -17,13 +22,10 @@ function Appmain(props) {
           roomname={props.match.params.roomname}
         />
       </div>
-      <div className="right">
-        <Chat
-          username={props.match.params.username}
-          roomname={props.match.params.roomname}
-          socket={socket}
-        />
-      </div>
+        <div>
+          {start ? <div className="left"><Chat username={props.match.params.username} roomname={props.match.params.roomname} socket={socket}/></div> : <button onClick={startgame}>Start Game</button>}
+        </div>
+      
     </React.Fragment>
   );
 }

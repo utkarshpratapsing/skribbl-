@@ -12,4 +12,17 @@
   .left {
     flex: 1;
   }
+  button {
+    font-size: 1rem;
+    padding: 0.5rem 1rem 0.5rem 1rem;
+    width: 100px;
+    border: none;
+    background-color: #ffac41;
+    border-radius: 5px;
+
+    color: black;
+    &:hover {
+      cursor: pointer;
+    }
+  }
 }
