@@ -51,22 +51,24 @@ function Chat({ username, roomname, socket }) {
   return (
     <div className="chat">
       <div className="user-name">
+      <ceter>
         <h2>
-          {username} <span style={{ fontSize: "0.7rem" }}>in {roomname}</span>
+            Skribbl Skribbl
         </h2>
+      </ceter>
       </div>
       <div className="chat-message">
         {messages.map((i) => {
           if (i.username === username) {
             return (
-              <div className="message">
+              <div className="message mess-right">
                 <p>{i.text}</p>
                 <span>{i.username}</span>
               </div>
             );
           } else {
             return (
-              <div className="message mess-right">
+              <div className="message">
                 <p>{i.text} </p>
                 <span>{i.username}</span>
               </div>
@@ -77,7 +79,7 @@ function Chat({ username, roomname, socket }) {
       </div>
       <div className="send">
         <input
-          placeholder="enter your message"
+          placeholder="Type your answer here"
           value={text}
           onChange={(e) => setText(e.target.value)}
           onKeyPress={(e) => {

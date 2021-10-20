@@ -30,10 +30,15 @@ function Homepage({ socket }) {
       <div>
         <p>You are in room {roomname}</p>
         <p>Share this room number with your friends !</p>
+        <br></br>
+        <br></br>
+        <br></br>
         <div>
-          <Link to={`/chat/${roomname}/${username}`}>
-            <button onClick={sendData}>Join Room</button>
-          </Link>
+          <center>
+            <Link to={`/chat/${roomname}/${username}`}>
+              <button class="button" onClick={sendData}>Join Room</button>
+            </Link>
+          </center>
         </div>
       </div>
     );
@@ -46,19 +51,23 @@ function Homepage({ socket }) {
         value={username}
         onChange={(e) => setusername(e.target.value)}
       ></input>
-      {modalisshown || roomisshown ? null : <button onClick={Create_Room}>Create a new room</button>}
-      {modalisshown || roomisshown ? null : <button onClick={Join_Room}>Join a existing room</button>}
+      {modalisshown || roomisshown ? null : <button class="button" onClick={Create_Room}>Create a new room</button>}
+      {modalisshown || roomisshown ? null : <button class="button" onClick={Join_Room}>Join a existing room</button>}
       {modalisshown ? 
         <div>
-          <input
-            type = "text"
-            placeholder="Input the room name"
-            value={roomname}
-            onChange={(e) => setroomname(e.target.value)}
-          ></input>
-          <Link to={`/chat/${roomname}/${username}`}>
-            <button onClick={sendData}>Join</button>
-          </Link>
+          <center>
+            <input
+              type = "text"
+              placeholder="Input the room name"
+              value={roomname}
+              onChange={(e) => setroomname(e.target.value)}
+            ></input>
+            <br></br>
+            <br></br>
+            <Link to={`/chat/${roomname}/${username}`}>
+              <button class="button" onClick={sendData}>Join</button>
+            </Link>
+          </center>
         </div> 
       : null}
     {roomisshown ? <Roomdetails /> : null}

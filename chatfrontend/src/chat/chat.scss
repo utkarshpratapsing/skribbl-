@@ -33,14 +33,18 @@
   justify-content: space-between;
   height: 600px;
   flex-direction: column;
-  background-color: $greyColor;
+  background-image: url('../images/background_chat.jpeg');
+  background-size: 100px;
   .user-name {
     width: 100%;
     text-align: start;
     h2 {
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-      font-weight: 300;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+      font-weight: 600;
+      color:#000000;
       padding-bottom: 1rem;
+      text-align: centre;
+      background-color: #6069eb;
     }
   }
   .chat-message {
@@ -60,7 +64,7 @@
         color: #b4b6be;
         font-size: 1rem;
         font-weight: 300;
-        background-color: #250202;
+        background-color: #8a8a8a;
         border-radius: 0px 10px 10px 10px;
         padding: 1rem;
       }
@@ -82,7 +86,7 @@
       p {
         background-color: $redColor;
         text-align: end;
-        color: white;
+        color: rgb(255, 255, 255);
         border-radius: 10px 0px 10px 10px;
       }
       span {
@@ -110,7 +114,7 @@
       }
     }
     button {
-      background-color: $yellowColor;
+      background-color: #2cd43a;
       width: 20%;
       border-radius: 0px 5px 5px 0px;
       border: none;
