@@ -3,18 +3,26 @@ import React,{useState} from 'react';
 import Scores from './scores/scores';
 import Canvas from './canvas/canvas';
 import Chat from './chat/chat';
-import Words from './words/words';
+import Words,{cw} from './words/words';
+import Timer from './timer/timer';
 
-const worddict = require('./words/words.json');
 
 function Game({username,roomname,socket}){
-    const [currentword,setcurrentword] = useState("");
-    function generaterandomword(){
-        setcurrentword(worddict.english[parseInt(Math.random()*worddict.english.length)]);
-    }
+    console.log(cw);
     return(
-
+      
     <div className='Game'>
+       <div>
+           {cw}
+       </div>
+       <div>
+            <Timer
+                userName={username}
+                socket={socket}
+                drawer={"d"}
+                timelimit={20}
+            />
+        </div>
         <div className='left'>
             <Scores
                 roomname={roomname}
@@ -22,12 +30,9 @@ function Game({username,roomname,socket}){
             />
         </div>
         <div>
-            <div>
-                <button onClick={generaterandomword}>Press Me</button>
-            </div> 
+             
             <div>
                 <Words
-                    currentword = {currentword}
                     username = {username}
                     drawer={"d"}
                     />
