@@ -1,0 +1,39 @@
+.scores {
+  align-items: left;
+  min-height: 50px;
+  padding: 1rem;
+  width: 150px;
+  flex-direction: column;
+  display: flex;
+  margin-left: 10rem;
+  margin-top: -25rem ;
+  justify-content: space-evenly;
+  background-color: #ffffff ;
+  h5 {
+    span {
+      color: yellow;
+    }
+    font-weight: 400;
+    margin-bottom: 5rem;
+    color: rgb(4, 238, 4);
+  }
+  h4 {
+    font-weight: 400;
+    color: rgb(4, 238, 4);
+  }
+  h1{
+    color:rgb(0, 0, 0);
+    font-weight: 700;
+  }
+  h2{
+    color:rgb(51, 35, 201)
+  }
+  p {  
+    font-size: 1rem;
+    padding: 1.2rem;
+    margin-top: 0.5rem;
+    border-radius: 5px;
+    background-color: rgba(0, 0, 0, 0.4);
+    text-overflow: auto;
+  }
+}

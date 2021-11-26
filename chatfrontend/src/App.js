@@ -1,6 +1,7 @@
-import Chat from "./chat/chat";
-import Process from "./process/process";
+//import Chat from "./chat/chat";
+//import Process from "./process/process";
 import Home from "./home/home";
+import Game from './game/game';
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import "./App.scss";
 import React from "react";
@@ -16,7 +17,7 @@ function Appmain(props) {
   }
   return (
     <React.Fragment>      
-      <div className="right">
+{/*       <div className="right">
         <Process 
           socket={socket} 
           roomname={props.match.params.roomname}
@@ -24,8 +25,8 @@ function Appmain(props) {
       </div>
         <div className="left">
           {start ? <div><Chat username={props.match.params.username} roomname={props.match.params.roomname} socket={socket}/></div> : <button class="startgame" onClick={startgame}>Start Game</button>}
-        </div>
-      
+  </div>*/} 
+      <div><Game/></div>
     </React.Fragment>
   );
 }
