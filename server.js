@@ -77,6 +77,15 @@ io.on("connection", (socket) => {
     const p_user_arr = get_all_users();
     io.emit("userList",{users: p_user_arr});
   });
+
+  socket.on("draw", (draw_data) => {
+    //gets the room user and the message sent
+    const p_user = get_Current_User(socket.id);
+    io.to(p_user.room).emit("do_drawing", {
+      draw_data: draw_data,
+    });
+  });
+
 });
 
 const path = require('path');
