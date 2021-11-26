@@ -4,8 +4,14 @@ import Scores from './scores/scores';
 import Canvas from './canvas/canvas';
 import Chat from './chat/chat'
 
-function Game(){
-    return(<div><div><Scores/></div> <div> <Canvas/></div><div><Chat/> </div></div>);
+function Game({username,roomname,socket}){
+    return(<div><div><Scores
+    roomname={roomname}
+    socket={socket}
+    /></div> <div> <Canvas/></div><div><Chat
+        username={username} 
+        roomname={roomname} 
+        socket={socket}/> </div></div>);
 }
 
 export default Game;

@@ -26,7 +26,10 @@ function Appmain(props) {
         <div className="left">
           {start ? <div><Chat username={props.match.params.username} roomname={props.match.params.roomname} socket={socket}/></div> : <button class="startgame" onClick={startgame}>Start Game</button>}
   </div>*/} 
-      <div><Game/></div>
+      <div><Game
+      username={props.match.params.username} 
+      roomname={props.match.params.roomname} 
+      socket={socket}/></div>
     </React.Fragment>
   );
 }

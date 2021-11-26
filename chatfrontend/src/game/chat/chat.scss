@@ -1,4 +1,4 @@
-@import "../globals";
+@import "../../globals";
 @mixin scrollbars(
   $size,
   $foreground-color,
@@ -33,7 +33,7 @@
   justify-content: space-between;
   height: 600px;
   flex-direction: column;
-  background-image: url('../images/background_chat.jpeg');
+  background-image: url('../../images/background_chat.jpeg');
   background-size: 100px;
   .user-name {
     width: 100%;

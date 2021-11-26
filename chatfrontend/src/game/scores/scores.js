@@ -1,6 +1,6 @@
 import "./scores.scss";
-//import { useState, useEffect } from "react";
-/*function Scores({ socket, roomname }) {
+import { useState, useEffect } from "react";
+function Scores({ socket, roomname }) {
   const [userlist, setUserList] = useState([]);
   useEffect(()=>{
     socket.emit("updateusers")
@@ -15,16 +15,15 @@ import "./scores.scss";
       setUserList([...temp])
     })
   },[])
- 
-  }  <div class="scores">
+ return(
+    <div class="scores">
       <h1>Players</h1>
       {userlist.map((i) => {
           return(
             <h2>{i}</h2>
           );
         })}
-      </div>*/
-function Scores(){
-      return (<div><h2>Idhar Scores aaega</h2></div>);
+      </div>
+      );
 }
 export default Scores;

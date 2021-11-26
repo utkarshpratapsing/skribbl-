@@ -1,10 +1,10 @@
-/*import "./chat.scss";
-import { to_Decrypt, to_Encrypt } from "../aes.js";
-import { process } from "../store/action/index";
+import "./chat.scss";
+import { to_Decrypt, to_Encrypt } from "./aes.js";
+import { process } from "../../store/action/index";
 import React, { useState, useEffect, useRef } from "react";
-import { useDispatch } from "react-redux";*/
+import { useDispatch } from "react-redux";
 //gets the data from the action object and reducers defined earlier
-/*function Chat({ username, roomname, socket }) {
+function Chat({ username, roomname, socket }) {
   const [text, setText] = useState("");
   const [messages, setMessages] = useState([]);
 
@@ -48,7 +48,7 @@ import { useDispatch } from "react-redux";*/
 
   console.log(messages, "mess");
 
-  
+  return(
     <div className="chat">
       <div className="user-name">
       <ceter>
@@ -90,9 +90,7 @@ import { useDispatch } from "react-redux";*/
         ></input>
         <button onClick={sendData}>Send</button>
       </div>
-        </div>*/
-function Chat(){
-        return(<div><h2>Idhar Chat aaega</h2></div>
+        </div>
   );
 }
 export default Chat;
