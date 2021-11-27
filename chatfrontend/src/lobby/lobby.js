@@ -1,6 +1,6 @@
 import React,{useState} from 'react';
 import Scores from '../game/scores/scores';
-import { Link, Redirect } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 function Lobby({user,socket}){
     const [startGame,setStartGame] = useState(false)
     function Start_The_Game(){
