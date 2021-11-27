@@ -9,8 +9,6 @@ function join_User(id, username, room, is_active) {
   return p_user;
 }
 
-console.log("user out", c_users);
-
 // Gets a particular user id to return the current user
 function get_Current_User(id) {
   return c_users.find((p_user) => p_user.id === id);
