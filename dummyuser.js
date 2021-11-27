@@ -34,11 +34,24 @@ function get_Active_User(room) {
   return c_users.find((p_user) => p_user.is_active === true && p_user.room === room);
 }
 
+//--------------------------------------------------------------------//
+function update_active_user(room) {
+  var new_arr = c_users.filter((p_user) => p_user.room === room);
+  var ind = new_arr.findIndex((p_user)=> p_user.is_active === true);
+  var current_id = new_arr[ind].id;
+  var next_user_id = new_arr[(ind+1)%new_arr.length].id;
+  c_users.find((p_user) => p_user.id === current_id).is_active = false;
+  c_users.find((p_user) => p_user.id === next_user_id).is_active = true;
+
+}
+//--------------------------------------------------------------------//
+
 
 module.exports = {
   join_User,
   get_Current_User,
   user_Disconnect,
   get_all_users,
-  get_Active_User
+  get_Active_User,
+  update_active_user
 };

@@ -12,14 +12,13 @@ function Game({user,socket}){
     const [currentword,setcurrentword] = useState("Kaddu");
     const [popup,setpopup] = useState(true);
     const [current_drawer,setcurrent_drawer] = useState(null);
-    var s1=""
-    var s2=""
-    var s3=""
+    const [badlu,setbadlu] = useState(true);
     function generate_random_word(){
-        s1 = worddict.english[parseInt(Math.random()*worddict.english.length)];
-        s2 = worddict.english[parseInt(Math.random()*worddict.english.length)];
-        s3 = worddict.english[parseInt(Math.random()*worddict.english.length)];
+        return worddict.english[parseInt(Math.random()*worddict.english.length)];
     }
+    var s1=generate_random_word();
+    var s2=generate_random_word();
+    var s3=generate_random_word();
     function set_random_word(s){
         setcurrentword(s);
         setpopup(false);
@@ -36,8 +35,19 @@ function Game({user,socket}){
         socket.on("received_active_user",(data)=>{
             setcurrent_drawer(data.current_user);
         });
-    },[]);
+    },[badlu]);
     //-----------------------------------------------------------//
+ 
+    socket.on("active_user_updated",() =>{
+        setbadlu(!badlu);
+    })    
+    function sub_round_over(){
+        socket.emit("update_active_user",user.room);
+    }
+    //-----------------------------------------------------------//
+
+
+
     return(  
         <div>
             {
@@ -68,6 +78,9 @@ function Game({user,socket}){
                                     </div>
                                     :null
                                 }
+                            </div>
+                            <div>
+                                <button onClick={()=>sub_round_over()}>Next Round</button>
                             </div>
                             <div>
                                 <Words

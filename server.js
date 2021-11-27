@@ -3,7 +3,7 @@ const app = express();
 const socket = require("socket.io");
 const color = require("colors");
 const cors = require("cors");
-const { get_Current_User, user_Disconnect, join_User, get_all_users, get_Active_User } = require("./dummyuser");
+const { get_Current_User, user_Disconnect, join_User, get_all_users, get_Active_User, update_active_user } = require("./dummyuser");
 
 app.use(express());
 
@@ -121,6 +121,14 @@ io.on("connection", (socket) => {
     });
   });
 
+  //------------------------------------------------------//
+  socket.on("update_active_user",(room) => {
+    update_active_user(room);
+    console.log("updated active user");
+    io.to(room).emit("active_user_updated");
+  })
+  //------------------------------------------------------//
+  
 });
 
 const path = require('path');
