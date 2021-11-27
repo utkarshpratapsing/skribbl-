@@ -16,7 +16,7 @@ function Scores({ socket, roomname }) {
     })
   },[socket, roomname])
  return(
-    <div class="scores">
+    <div className="scores">
       <h1>Players</h1>
       {userlist.map((i) => {
           return(

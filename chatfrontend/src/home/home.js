@@ -37,7 +37,7 @@ function Homepage({ socket }) {
         <br></br>
         <div>
           <center>
-            <Link to={`/chat/${roomname}/${username}`}>
+            <Link to={`/game/${roomname}/lobby`}>
               <button className="button" onClick={()=>{
                 should_be_active_user = true;
                 sendData();
@@ -69,7 +69,7 @@ function Homepage({ socket }) {
             ></input>
             <br></br>
             <br></br>
-            <Link to={`/chat/${roomname}/${username}`}>
+            <Link to={`/game/${roomname}/lobby`}>
               <button className="button" onClick={sendData}>Join</button>
             </Link>
           </center>

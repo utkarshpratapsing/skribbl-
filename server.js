@@ -128,6 +128,10 @@ io.on("connection", (socket) => {
     io.to(room).emit("active_user_updated");
   })
   //------------------------------------------------------//
+  socket.on("Start_Game_For_All",()=>{
+    const p_user = get_Current_User(socket.id);
+    io.to(p_user.room).emit("Start_Game");
+  })
   
 });
 
