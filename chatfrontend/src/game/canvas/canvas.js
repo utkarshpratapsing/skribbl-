@@ -3,13 +3,13 @@ import React, { useState, useRef} from "react";
 function Canvas({user, drawer, socket }){
     const CanvasRef = useRef()
     const [data, setData] = useState("");
-    const [brushSize, setbrushSize] = useState("12");
+    const [brushSize, setbrushSize] = useState(12);
     const [brushColor, setbrushColor] = useState("#444")
     socket.on("do_drawing",(data)=>{
         setData(data.draw_data)
     });
     function Change_Brush_Size(e){
-        setbrushSize(e.currentTarget.value)
+        setbrushSize(Number(e.currentTarget.value))
     }
     function Change_Brush_Color(e){
         setbrushColor(e.currentTarget.value)

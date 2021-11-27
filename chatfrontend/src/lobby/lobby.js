@@ -4,7 +4,7 @@ function Lobby(){
     return(
         <div>
             <Link to={`/chat/${roomname}/${username}`}>
-              <button class="button" onClick={sendData}>Enter Room</button>
+              <button className="button" onClick={sendData}>Enter Room</button>
             </Link>
         </div>
     );
