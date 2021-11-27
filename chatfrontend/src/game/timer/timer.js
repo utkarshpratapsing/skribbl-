@@ -28,7 +28,7 @@ const Timer = ({timelimit,socket,user,drawer}) => {
       clearInterval(interval);
     }
     return () => clearInterval(interval);
-  }, [isActive, seconds]);
+  }, [isActive, seconds, timelimit]);
 
   if(user.id===drawer.id){
     socket.emit("time",seconds)

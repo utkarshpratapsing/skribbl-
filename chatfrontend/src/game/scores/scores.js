@@ -14,7 +14,7 @@ function Scores({ socket, roomname }) {
       }
       setUserList([...temp])
     })
-  },[])
+  },[socket, roomname])
  return(
     <div class="scores">
       <h1>Players</h1>

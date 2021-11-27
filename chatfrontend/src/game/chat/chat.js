@@ -15,7 +15,7 @@ function Chat({ username, socket,currentword }) {
       });
       setMessages([...temp]);
     });
-  }, [socket]);
+  }, [socket, messages]);
 
   const sendData = () => {
     if (text !== "") {
