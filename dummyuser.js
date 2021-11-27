@@ -42,7 +42,7 @@ function update_active_user(room) {
   var next_user_id = new_arr[(ind+1)%new_arr.length].id;
   c_users.find((p_user) => p_user.id === current_id).is_active = false;
   c_users.find((p_user) => p_user.id === next_user_id).is_active = true;
-
+  return  c_users.find((p_user) => p_user.id === next_user_id);
 }
 //--------------------------------------------------------------------//
 

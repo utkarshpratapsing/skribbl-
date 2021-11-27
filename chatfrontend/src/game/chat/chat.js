@@ -1,6 +1,6 @@
 import "./chat.scss";
 import React, { useState, useEffect, useRef } from "react";
-function Chat({ username, socket,currentword }) {
+function Chat({ username,drawer, socket,currentword }) {
   const [text, setText] = useState("");
   const [messages, setMessages] = useState([]);
 

@@ -123,9 +123,9 @@ io.on("connection", (socket) => {
 
   //------------------------------------------------------//
   socket.on("update_active_user",(room) => {
-    update_active_user(room);
-    console.log("updated active user");
-    io.to(room).emit("active_user_updated");
+    const user = update_active_user(room);
+    console.log(user);
+    io.to(room).emit("active_user_updated",{user:user});
   })
   //------------------------------------------------------//
   socket.on("Start_Game_For_All",()=>{

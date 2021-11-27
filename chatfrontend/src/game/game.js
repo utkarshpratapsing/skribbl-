@@ -12,7 +12,7 @@ function Game({user,socket}){
     const [currentword,setcurrentword] = useState("Kaddu");
     const [popup,setpopup] = useState(true);
     const [current_drawer,setcurrent_drawer] = useState(null);
-    const [badlu,setbadlu] = useState(true);
+   
     function generate_random_word(){
         return worddict.english[parseInt(Math.random()*worddict.english.length)];
     }
@@ -30,20 +30,23 @@ function Game({user,socket}){
     //---------------------------------------------------------//*/
 
     useEffect(()=>{
-        generate_random_word();
+      
         console.log("Yeh user mila hai mujhe :",user);
         socket.emit("get_current_drawer",user.room);
         socket.on("received_active_user",(data)=>{
             setcurrent_drawer(data.current_user);
         });
-    },[badlu,user,socket]);
+    },[user,socket]);
     //-----------------------------------------------------------//
  
-    socket.on("active_user_updated",() =>{
-        setbadlu(!badlu);
+    socket.on("active_user_updated",(user) =>{
+        setcurrent_drawer(user.user);
+        setpopup(true);
     })    
     function sub_round_over(){
         socket.emit("update_active_user",user.room);
+        
+        
     }
     //-----------------------------------------------------------//
     return(  
@@ -68,7 +71,7 @@ function Game({user,socket}){
                         </div>
                         <div>
                             <div>
-                                {popup?
+                                {popup && user.id === current_drawer.id?
                                     <div>
                                         <button onClick={()=>set_random_word(s1)}>{s1}</button>
                                         <button onClick={()=>set_random_word(s2)}>{s2}</button>
@@ -100,6 +103,7 @@ function Game({user,socket}){
                                 username={user.username} 
                                 socket={socket}
                                 currentword={currentword}
+                                drawer={current_drawer}
                             /> 
                         </div>
                     </div>
