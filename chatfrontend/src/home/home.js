@@ -7,10 +7,12 @@ function Homepage({ socket }) {
   const [roomname, setroomname] = useState("");
   const [modalisshown, setmodalstate] = useState("");
   const [roomisshown, setroomstate] = useState("");
+  var should_be_active_user = false;
   //activates joinRoom function defined on the backend
   const sendData = () => {
     if (username !== "" && roomname !== "") {
-      socket.emit("joinRoom", { username, roomname });
+      if(should_be_active_user) socket.emit("joinRoom_New", { username, roomname });
+      else socket.emit("joinRoom_Old", { username, roomname });
       //if empty error message pops up and returns to the same page
     } else {
       alert("username and roomname are must !");
@@ -36,7 +38,10 @@ function Homepage({ socket }) {
         <div>
           <center>
             <Link to={`/chat/${roomname}/${username}`}>
-              <button class="button" onClick={sendData}>Join Room</button>
+              <button className="button" onClick={()=>{
+                should_be_active_user = true;
+                sendData();
+                }}>Join Room</button>
             </Link>
           </center>
         </div>
@@ -51,8 +56,8 @@ function Homepage({ socket }) {
         value={username}
         onChange={(e) => setusername(e.target.value)}
       ></input>
-      {modalisshown || roomisshown ? null : <button class="button" onClick={Create_Room}>Create a new room</button>}
-      {modalisshown || roomisshown ? null : <button class="button" onClick={Join_Room}>Join a existing room</button>}
+      {modalisshown || roomisshown ? null : <button className="button" onClick={Create_Room}>Create a new room</button>}
+      {modalisshown || roomisshown ? null : <button className="button" onClick={Join_Room}>Join a existing room</button>}
       {modalisshown ? 
         <div>
           <center>
@@ -65,7 +70,7 @@ function Homepage({ socket }) {
             <br></br>
             <br></br>
             <Link to={`/chat/${roomname}/${username}`}>
-              <button class="button" onClick={sendData}>Join</button>
+              <button className="button" onClick={sendData}>Join</button>
             </Link>
           </center>
         </div> 

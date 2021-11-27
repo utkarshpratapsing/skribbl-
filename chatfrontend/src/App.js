@@ -7,14 +7,22 @@ import "./App.scss";
 import React from "react";
 import { useState } from "react";
 import io from "socket.io-client";
-
+import { useEffect} from "react";
 const socket = io.connect('/');
 
+
 function Appmain(props) {
-  const [start, setstart] = useState(false);
-  function startgame(){
-    setstart(true);
-  }
+  useEffect(() => {
+    socket.on("received_current_user",(data)=>{
+     console.log("Kaddu------------------")
+     setUser(data.current_user)
+     console.log(user)
+   });
+ }, [socket]);
+
+  const [user,setUser]=useState("");
+  socket.emit("get_current_user");
+  
   return (
     <React.Fragment>      
 {/*       <div className="right">
@@ -27,7 +35,7 @@ function Appmain(props) {
           {start ? <div><Chat username={props.match.params.username} roomname={props.match.params.roomname} socket={socket}/></div> : <button class="startgame" onClick={startgame}>Start Game</button>}
   </div>*/} 
       <div><Game
-      username={props.match.params.username} 
+      user={user} 
       roomname={props.match.params.roomname} 
       socket={socket}/></div>
     </React.Fragment>

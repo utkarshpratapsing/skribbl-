@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 
-const Timer = ({timelimit,socket,userName,drawer}) => {
+const Timer = ({timelimit,socket,user,drawer}) => {
   const [seconds, setSeconds] = useState(0);
   const [isActive, setIsActive] = useState(false);
   socket.on("time_change",(data)=>{
@@ -30,7 +30,7 @@ const Timer = ({timelimit,socket,userName,drawer}) => {
     return () => clearInterval(interval);
   }, [isActive, seconds]);
 
-  if(userName===drawer){
+  if(user.id===drawer.id){
     socket.emit("time",seconds)
     if(seconds>timelimit){
       reset()

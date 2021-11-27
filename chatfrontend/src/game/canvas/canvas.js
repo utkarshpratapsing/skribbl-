@@ -1,6 +1,6 @@
 import CanvasDraw from "react-canvas-draw";
 import React, { useState, useRef} from "react";
-function Canvas({userName, drawer, socket }){
+function Canvas({user, drawer, socket }){
     const CanvasRef = useRef()
     const [data, setData] = useState("");
     const [brushSize, setbrushSize] = useState("12");
@@ -21,7 +21,7 @@ function Canvas({userName, drawer, socket }){
     }
     return(
         <div>
-            {userName===drawer ? 
+            {user.id===drawer.id ? 
                 <div>
                     <CanvasDraw 
                         canvasWidth = {800}

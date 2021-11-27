@@ -1,6 +1,6 @@
 import "./chat.scss";
 import React, { useState, useEffect, useRef } from "react";
-function Chat({ username, roomname, socket }) {
+function Chat({ username, socket,currentword }) {
   const [text, setText] = useState("");
   const [messages, setMessages] = useState([]);
 
@@ -39,7 +39,7 @@ function Chat({ username, roomname, socket }) {
       <div className="user-name">
       <ceter>
         <h2>
-            Skribbl Skribbl
+            {currentword}
         </h2>
       </ceter>
       </div>
