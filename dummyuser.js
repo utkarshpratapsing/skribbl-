@@ -18,14 +18,13 @@ function get_Current_User(id) {
 // called when the user leaves the chat and its user object deleted from array
 function user_Disconnect(id) {
   const index = c_users.findIndex((p_user) => p_user.id === id);
-
   if (index !== -1) {
     return c_users.splice(index, 1)[0];
   }
 }
 
-function get_all_users() {
-  return c_users;
+function get_all_users(room) {
+  return c_users.filter((p_user) => p_user.room === room);
 }
 
 // Get active user
@@ -71,7 +70,15 @@ function update_score(user,dscore){
 return is_end;
 }
 //-------------------------------------------------------------------//
-
+function update_drawer(room){
+  var new_arr = c_users.filter((p_user) => p_user.room === room && !p_user.is_active );
+  var score_drawer = 0;
+  for(var i=0;i<new_arr.length;i++){
+    score_drawer+=new_arr[i].score;
+}
+  score_drawer/=new_arr.length;
+  c_users.find((p_user) => p_user.is_active && p_user.room === room).scores+=score_drawer;}
+//-------------------------------------------------------------------//
 module.exports = {
   join_User,
   get_Current_User,
@@ -79,5 +86,6 @@ module.exports = {
   get_all_users,
   get_Active_User,
   update_active_user,
-  update_score
+  update_score,
+  update_drawer
 };

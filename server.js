@@ -3,7 +3,7 @@ const app = express();
 const socket = require("socket.io");
 const color = require("colors");
 const cors = require("cors");
-const { get_Current_User, user_Disconnect, join_User, get_all_users, get_Active_User, update_active_user, update_score } = require("./dummyuser");
+const { get_Current_User, user_Disconnect, join_User, get_all_users, get_Active_User, update_active_user, update_score, update_drawer } = require("./dummyuser");
 
 app.use(express());
 
@@ -43,7 +43,7 @@ io.on("connection", (socket) => {
       text: `${p_user.username} has joined the chat`,
     });
 
-    socket.emit("updateusers");
+    //socket.emit("updateusers");
   });
 
   socket.on("joinRoom_New", ({ username, roomname}) => {
@@ -65,7 +65,7 @@ io.on("connection", (socket) => {
       text: `${p_user.username} has joined the chat`,
     });
 
-    socket.emit("updateusers");
+    //socket.emit("updateusers");
   });
 
   //user sending message
@@ -83,25 +83,25 @@ io.on("connection", (socket) => {
   socket.on("disconnect", () => {
     //the user is deleted from array of users and a left room message displayed
     const p_user = user_Disconnect(socket.id);
-    io.emit("updateusers");
+    console.log("*********8",p_user)
     if (p_user) {
       io.to(p_user.room).emit("message", {
         userId: p_user.id,
         username: p_user.username,
         text: `${p_user.username} has left the room`,
       });
+      io.to(p_user.room).emit("updateusers",{roomname:p_user.room});
     }
   });
 
-  socket.on("updateusers", () => {
-    const p_user_arr = get_all_users();
-    io.emit("userList",{users: p_user_arr});
+  socket.on("updateusers", (room) => {
+    const p_user_arr = get_all_users(room.roomname);
+    console.log("Yes i have the user array",p_user_arr)
+    io.to(p_user_arr[0].room).emit("userList",{users: p_user_arr});
   });
 
   socket.on("get_current_drawer", (roomname) => {
     const p_user = get_Active_User(roomname);
-    console.log("---------Get_Current_Drawer is working-----------------------",roomname)
-    console.log("---------------------Found user:",p_user)
     socket.emit("received_active_user", {
       current_user: p_user,
     });
@@ -145,6 +145,7 @@ io.on("connection", (socket) => {
   //----------------------------------------------------//
   socket.on("time_over",(room)=>{
     const curr_draw = get_Active_User(room);
+    update_drawer(room);
     io.to(room).emit("Sub_Round_Over",{curr_draw:curr_draw});
   })
   //----------------------------------------------------//

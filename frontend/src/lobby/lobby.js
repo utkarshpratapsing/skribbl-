@@ -1,6 +1,29 @@
-import React,{useState} from 'react';
-import Scores from '../game/scores/scores';
+import React,{useState, useEffect} from 'react';
 import { Redirect } from "react-router-dom";
+
+
+function Userlist({ socket, roomname}) {
+    const [userlist, setUserList] = useState([]);
+    useEffect(()=>{
+      socket.emit("updateusers",{roomname})
+    },[socket, roomname])
+    socket.on("userList",(data)=>{
+      setUserList(data.users)
+    })
+    return(
+      <div>
+        <h1>Players</h1>
+        {userlist.map((i) => {
+            return(
+              <div>
+                <h2>{i.username}</h2>
+              </div>
+            );
+          })}
+      </div>
+    );
+  }
+
 
 function Lobby({user,socket}){
     const [startGame,setStartGame] = useState(false)
@@ -30,7 +53,7 @@ function Lobby({user,socket}){
             :
             <div>
                 <div>
-                    <Scores
+                    <Userlist
                         roomname={user.room}
                         socket={socket}
                     />

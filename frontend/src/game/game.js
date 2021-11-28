@@ -23,21 +23,15 @@ function Game({user,socket,settings}){
         setpopup(false);
         socket.emit("start_timer",user.room);
     }
-    /*//---------------------------------------------------------//
-    const [userlist, setUserList] = useState([]);
-    const [current_drawer,setcurrent_drawer] = useState(user_id)
-    const [current_round,setcurrent_round] = useState(round_number) round_number == userlist ki index
-    //---------------------------------------------------------//*/
+    //---------------------------------------------------------//
     
-    useEffect(()=>{
-      
+    useEffect(()=>{      
         socket.emit("get_current_drawer",user.room);
         socket.on("received_active_user",(data)=>{
             setcurrent_drawer(data.current_user);
         });
     },[user,socket]);
-    //-----------------------------------------------------------//
- 
+    //-----------------------------------------------------------// 
     socket.on("active_user_updated",(data) =>{
         setcurrent_drawer(data.user);
         setpopup(true);
@@ -49,12 +43,10 @@ function Game({user,socket,settings}){
 
     function sub_round_over(x){
         socket.emit("update_chatting_rights",user.room);
-
         if(user.id === x.id){
             socket.emit("update_active_user",user.room);
         }    
-    }
-    
+    }    
     //-----------------------------------------------------------//
     return(  
         <div>
@@ -74,6 +66,7 @@ function Game({user,socket,settings}){
                             <Scores
                                 roomname={user.room}
                                 socket={socket}
+                                drawer={current_drawer}
                             />
                         </div>
                         <div>
