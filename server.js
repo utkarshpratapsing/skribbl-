@@ -43,7 +43,7 @@ io.on("connection", (socket) => {
       text: `${p_user.username} has joined the chat`,
     });
 
-    socket.emit("updateusers",roomname);
+    socket.emit("updateusers");
   });
 
   socket.on("joinRoom_New", ({ username, roomname}) => {
@@ -65,7 +65,7 @@ io.on("connection", (socket) => {
       text: `${p_user.username} has joined the chat`,
     });
 
-    socket.emit("updateusers",roomname);
+    socket.emit("updateusers");
   });
 
   //user sending message
@@ -129,8 +129,12 @@ io.on("connection", (socket) => {
   })
   //------------------------------------------------------//
   //-----------------------------------------------------//
-  socket.on("updateScore",(user) => {
-    update_score(user);
+  socket.on("updateScore",(user,dscore) => {
+    const is_end = update_score(user,dscore);
+    const curr_draw = get_Active_User(user.room);
+    if(is_end){
+      io.to(user.room).emit("Sub_Round_Over",{curr_draw:curr_draw});
+    }
   })
   //-----------------------------------------------------//
   //-----------------------------------------------------//
@@ -149,14 +153,20 @@ io.on("connection", (socket) => {
     io.to(room).emit("Reset_Timer");
   })
   //----------------------------------------------------//
+  //---------------------------------------------------//
+  socket.on("update_chatting_rights",(room)=>{
+    io.to(room).emit("u_c_r");
+  })
+  //---------------------------------------------------//
+  //---------------------------------------------------//
+  /*socket.on("time_now",(data)=>{
+    console.log("***********recieved time at server*********",data.time);
+    io.to(data.room).emit("Time_Now",{time:data.time});
+  })*/
+  //----------------------------------------------------//
   socket.on("Start_Game_For_All",()=>{
     const p_user = get_Current_User(socket.id);
     io.to(p_user.room).emit("Start_Game");
-  })
-  socket.on("update_settings",(data)=>{
-    const p_user = get_Current_User(socket.id);
-    io.to(p_user.room).emit("received_settings",{settings:data});
-    console.log("Yes I have emitted the settings",data,p_user)
   })
   
 });
