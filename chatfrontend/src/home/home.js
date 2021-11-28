@@ -3,9 +3,10 @@ import "./home.scss";
 import { Link } from "react-router-dom";
 
 function Homepage({ socket }) {
-  const [username, setusername] = useState("");
+  const [username, setusername] = useState((Math.random() + 1).toString(36).substring(7));
   const [roomname, setroomname] = useState("");
   const [modalisshown, setmodalstate] = useState("");
+  const [globallobby, setgloballobby] = useState("");
   const [roomisshown, setroomstate] = useState("");
   var should_be_active_user = false;
   //activates joinRoom function defined on the backend
@@ -21,6 +22,10 @@ function Homepage({ socket }) {
   };
   function Join_Room(){
     setmodalstate(true);
+  }
+  function Join_Global_Room(){
+    setgloballobby(true);
+    setroomname("public_room");
   }
   function Create_Room(){
     setroomstate(true);
@@ -48,6 +53,27 @@ function Homepage({ socket }) {
       </div>
     );
   }
+  function Globalredirect(){
+    return(
+      <div>
+        <p>You are in Public Lobby</p>
+        <p>Enjoy the game</p>
+        <br></br>
+        <br></br>
+        <br></br>
+        <div>
+          <center>
+            <Link to={`/game/${roomname}/${username}`}>
+              <button className="button" onClick={()=>{
+                should_be_active_user = true;
+                sendData();
+                }}>Start Game</button>
+            </Link>
+          </center>
+        </div>
+      </div>
+    );
+  }
   return (
     <div className="homepage">
       <h1>Skribbl Skribbl</h1>
@@ -56,8 +82,9 @@ function Homepage({ socket }) {
         value={username}
         onChange={(e) => setusername(e.target.value)}
       ></input>
-      {modalisshown || roomisshown ? null : <button className="button" onClick={Create_Room}>Create a new room</button>}
-      {modalisshown || roomisshown ? null : <button className="button" onClick={Join_Room}>Join a existing room</button>}
+      {globallobby || modalisshown || roomisshown ? null : <button className="button" onClick={Create_Room}>Create a new room</button>}
+      {globallobby || modalisshown || roomisshown ? null : <button className="button" onClick={Join_Room}>Join a existing room</button>}
+      {globallobby || modalisshown || roomisshown ? null : <button className="button" onClick={Join_Global_Room}>Join a public room</button>}
       {modalisshown ? 
         <div>
           <center>
@@ -75,7 +102,8 @@ function Homepage({ socket }) {
           </center>
         </div> 
       : null}
-    {roomisshown ? <Roomdetails /> : null}
+      {roomisshown ? <Roomdetails /> : null}
+      {globallobby ? <Globalredirect /> : null}
   </div>
   );
 }

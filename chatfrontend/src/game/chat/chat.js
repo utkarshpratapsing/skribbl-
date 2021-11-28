@@ -1,9 +1,10 @@
 import "./chat.scss";
 import React, { useState, useEffect, useRef } from "react";
-function Chat({ username,drawer, socket,currentword }) {
+
+function Chat({ user,drawer,socket,currentword }) {
   const [text, setText] = useState("");
   const [messages, setMessages] = useState([]);
-
+  const [can_chat, setcan_chat] = useState(true);
   useEffect(() => {
     socket.on("message", (data) => {
 
@@ -18,9 +19,14 @@ function Chat({ username,drawer, socket,currentword }) {
   }, [socket, messages]);
 
   const sendData = () => {
-    if (text !== "") {
-      
-      socket.emit("chat",text);
+    if (text !== "" && user.id !== drawer.id && can_chat) {
+      if(currentword === text){
+        socket.emit("chat",`${user.username} guessed correctly!!!`);
+        socket.emit("updateScore",user);
+        setcan_chat(false);
+      }
+      else{
+        socket.emit("chat",currentword);}
       setText("");
     }
   };
@@ -45,7 +51,7 @@ function Chat({ username,drawer, socket,currentword }) {
       </div>
       <div className="chat-message">
         {messages.map((i) => {
-          if (i.username === username) {
+          if (i.username === user.username) {
             return (
               <div className="message mess-right">
                 <p>{i.text}</p>

@@ -3,7 +3,7 @@ const c_users = [];
 // joins the user to the specific chatroom
 function join_User(id, username, room, is_active) {
   var scores = 0
-  const p_user = { id, username, room, is_active, scores };
+  const p_user = { id, username, room, is_active, scores};
   c_users.push(p_user);
   console.log(c_users, "users");
   return p_user;
@@ -45,7 +45,11 @@ function update_active_user(room) {
   return  c_users.find((p_user) => p_user.id === next_user_id);
 }
 //--------------------------------------------------------------------//
-
+//-------------------------------------------------------------------//
+function update_score(user){
+  c_users.find((p_user) => p_user.id === user.id).scores += 250;
+}
+//-------------------------------------------------------------------//
 
 module.exports = {
   join_User,
@@ -53,5 +57,6 @@ module.exports = {
   user_Disconnect,
   get_all_users,
   get_Active_User,
-  update_active_user
+  update_active_user,
+  update_score
 };

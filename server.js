@@ -3,7 +3,7 @@ const app = express();
 const socket = require("socket.io");
 const color = require("colors");
 const cors = require("cors");
-const { get_Current_User, user_Disconnect, join_User, get_all_users, get_Active_User, update_active_user } = require("./dummyuser");
+const { get_Current_User, user_Disconnect, join_User, get_all_users, get_Active_User, update_active_user, update_score } = require("./dummyuser");
 
 app.use(express());
 
@@ -128,6 +128,27 @@ io.on("connection", (socket) => {
     io.to(room).emit("active_user_updated",{user:user});
   })
   //------------------------------------------------------//
+  //-----------------------------------------------------//
+  socket.on("updateScore",(user) => {
+    update_score(user);
+  })
+  //-----------------------------------------------------//
+  //-----------------------------------------------------//
+  socket.on("start_timer",(room)=>{
+    io.to(room).emit("Start_Timer");
+  })
+  //-----------------------------------------------------//
+  //----------------------------------------------------//
+  socket.on("time_over",(room)=>{
+    const curr_draw = get_Active_User(room);
+    io.to(room).emit("Sub_Round_Over",{curr_draw:curr_draw});
+  })
+  //----------------------------------------------------//
+  //----------------------------------------------------//
+  socket.on("reset_timer",(room)=>{
+    io.to(room).emit("Reset_Timer");
+  })
+  //----------------------------------------------------//
   socket.on("Start_Game_For_All",()=>{
     const p_user = get_Current_User(socket.id);
     io.to(p_user.room).emit("Start_Game");

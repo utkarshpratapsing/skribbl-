@@ -4,19 +4,33 @@ import React, { useState, useEffect } from "react";
 const Timer = ({timelimit,socket,user,drawer}) => {
   const [seconds, setSeconds] = useState(0);
   const [isActive, setIsActive] = useState(false);
-  socket.on("time_change",(data)=>{
-    setSeconds(data.seconds)
-  });
-  function toggle() {
+
+  /*function toggle() {
     setIsActive(!isActive);
-  }
+  }*/
 
   function reset() {
     setSeconds(0);
     setIsActive(false);
   }
 
-  useEffect(() => {    
+  socket.on("time_change",(data)=>{
+    setSeconds(data.seconds)
+  });
+
+
+  socket.on("Start_Timer",() => {
+    reset();
+    setIsActive(true);
+  })
+
+ socket.on("Reset_Timer",() =>{
+   reset();
+ }) 
+  
+
+  
+/*  useEffect(() => {    
     let interval = null;
     if (isActive) {
       if(seconds<timelimit){
@@ -28,39 +42,32 @@ const Timer = ({timelimit,socket,user,drawer}) => {
       clearInterval(interval);
     }
     return () => clearInterval(interval);
-  }, [isActive, seconds, timelimit]);
+  }, [isActive, seconds, timelimit]);*/
 
-  if(user.id===drawer.id){
-    socket.emit("time",seconds)
-    if(seconds>timelimit){
-      reset()
-    }
-    return(
-      <div>
-        <div>
-          {timelimit - seconds}s
-        </div>
-        <div>
-          <button onClick={toggle}>
-            {isActive ? 'Pause' : 'Start'}
-          </button>
-          <button onClick={reset}>
-            Reset
-          </button>
-        </div>
-      </div>
-    );
-  }
-  else{
-    return(
+  useEffect(() => {    
+    let interval = null;
+      if(seconds<timelimit && isActive){
+        interval = setInterval(() => {
+          setSeconds(seconds => seconds + 1);
+        }, 1000);
+      }
+      else if(seconds === timelimit && isActive){
+        if(user.id === drawer.id){
+        socket.emit("time_over",user.room);}
+        setSeconds(0);
+        setIsActive(false);
+        clearInterval(interval);
+      }
+    return () => clearInterval(interval);
+  }, [isActive,seconds, timelimit]);
+
+  return(
       <div>
         <div>
           {timelimit - seconds}s
         </div>
       </div>
     );
-  }
-};
+  };
 
 export default Timer;
-

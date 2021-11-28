@@ -7,12 +7,11 @@ import Words from './words/words';
 import Timer from './timer/timer';
 const worddict = require('./words/words.json');
 
-function Game({user,socket}){
+function Game({user,socket,settings}){
     //-------------------------Words--------------------------//
     const [currentword,setcurrentword] = useState("Kaddu");
     const [popup,setpopup] = useState(true);
     const [current_drawer,setcurrent_drawer] = useState(null);
-   
     function generate_random_word(){
         return worddict.english[parseInt(Math.random()*worddict.english.length)];
     }
@@ -22,16 +21,16 @@ function Game({user,socket}){
     function set_random_word(s){
         setcurrentword(s);
         setpopup(false);
+        socket.emit("start_timer",user.room);
     }
     /*//---------------------------------------------------------//
     const [userlist, setUserList] = useState([]);
     const [current_drawer,setcurrent_drawer] = useState(user_id)
     const [current_round,setcurrent_round] = useState(round_number) round_number == userlist ki index
     //---------------------------------------------------------//*/
-
+    
     useEffect(()=>{
       
-        console.log("Yeh user mila hai mujhe :",user);
         socket.emit("get_current_drawer",user.room);
         socket.on("received_active_user",(data)=>{
             setcurrent_drawer(data.current_user);
@@ -39,15 +38,24 @@ function Game({user,socket}){
     },[user,socket]);
     //-----------------------------------------------------------//
  
-    socket.on("active_user_updated",(user) =>{
-        setcurrent_drawer(user.user);
+    socket.on("active_user_updated",(data) =>{
+        setcurrent_drawer(data.user);
         setpopup(true);
     })    
-    function sub_round_over(){
-        socket.emit("update_active_user",user.room);
-        
-        
+
+    socket.on("Sub_Round_Over",(data)=>{
+        sub_round_over(data.curr_draw);
+    })
+
+    function sub_round_over(x){
+        console.log("---**",user,x,"**----");
+
+        if(user.id === x.id){
+            socket.emit("update_active_user",user.room);
+            //socket.emit("reset_timer",user.room);
+        }    
     }
+    
     //-----------------------------------------------------------//
     return(  
         <div>
@@ -60,7 +68,7 @@ function Game({user,socket}){
                                 user={user}
                                 socket={socket}
                                 drawer={current_drawer}
-                                timelimit={20}
+                                timelimit={settings.timelimit}
                             />
                         </div>
                         <div className='left'>
@@ -100,10 +108,10 @@ function Game({user,socket}){
                         </div>
                         <div className='right'>
                             <Chat
-                                username={user.username} 
+                                user={user} 
+                                drawer={current_drawer}
                                 socket={socket}
                                 currentword={currentword}
-                                drawer={current_drawer}
                             /> 
                         </div>
                     </div>
