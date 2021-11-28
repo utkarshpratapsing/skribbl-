@@ -43,7 +43,7 @@ io.on("connection", (socket) => {
       text: `${p_user.username} has joined the chat`,
     });
 
-    socket.emit("updateusers");
+    socket.emit("updateusers",roomname);
   });
 
   socket.on("joinRoom_New", ({ username, roomname}) => {
@@ -65,7 +65,7 @@ io.on("connection", (socket) => {
       text: `${p_user.username} has joined the chat`,
     });
 
-    socket.emit("updateusers");
+    socket.emit("updateusers",roomname);
   });
 
   //user sending message
@@ -152,6 +152,11 @@ io.on("connection", (socket) => {
   socket.on("Start_Game_For_All",()=>{
     const p_user = get_Current_User(socket.id);
     io.to(p_user.room).emit("Start_Game");
+  })
+  socket.on("update_settings",(data)=>{
+    const p_user = get_Current_User(socket.id);
+    io.to(p_user.room).emit("received_settings",{settings:data});
+    console.log("Yes I have emitted the settings",data,p_user)
   })
   
 });

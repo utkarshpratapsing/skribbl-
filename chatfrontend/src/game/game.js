@@ -64,11 +64,16 @@ function Game({user,socket,settings}){
                 <div>
                     <div className='Game'>
                         <div>
+                            <h2>
+                                {settings.t}
+                            </h2>
+                        </div>
+                        <div>
                             <Timer
                                 user={user}
                                 socket={socket}
                                 drawer={current_drawer}
-                                timelimit={settings.timelimit}
+                                timelimit={20}
                             />
                         </div>
                         <div className='left'>

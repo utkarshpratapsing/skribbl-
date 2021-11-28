@@ -8,29 +8,31 @@ import io from "socket.io-client";
 const socket = io.connect('/');
 
 
-function Appmain(props) {
+function Appmain({settings}) {
   const [user, setUser] = useState(null)
   useEffect(()=>{
     socket.emit("get_current_user");
     socket.on("received_current_user",(data)=>{
       setUser(data.current_user)
     });
+    console.log("Hemlo hji", settings)
   },[]);
-  console.log("Hiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii")
+
   return (
     <React.Fragment>
       {
-        user!==null?
+        user!==null && settings!==null?
         <div>
           <Game
             user={user} 
             socket={socket}
+            settings={settings}
           />
         </div>
         :
         <div>
           <h2>
-            Loading...
+            Loading...LOL
           </h2>
         </div>
       }
@@ -46,7 +48,6 @@ function Lobby_function(props) {
       setUser(data.current_user)
     });
   },[]);
-  console.log("Ji mai hi hu",user)
   return (
     <React.Fragment>
       {
@@ -71,6 +72,11 @@ function Lobby_function(props) {
 
 
 function App() {
+  const [settings, setSettings] = useState(null)
+  socket.on("received_settings",(data)=>{
+    console.log("Hiii I received the settings",data)
+    setSettings(data.settings)
+  });
   return (
     <Router>
       <div className="App">
@@ -79,7 +85,9 @@ function App() {
             <Home socket={socket} />
           </Route>
           <Route path="/game/:roomname/lobby" component={Lobby_function} />
-          <Route path="/game/:roomname/:username" component={Appmain} />
+          <Route path="/game/:roomname/:username">
+            <Appmain settings={settings}/>
+          </Route>
         </Switch>
       </div>
     </Router>
